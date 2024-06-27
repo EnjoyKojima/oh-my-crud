@@ -1,0 +1,24 @@
+services:
+  proxy:
+    image: steveltn/https-portal:1
+    ports:
+      - '80:80'
+      - '443:443'
+    environment:
+      STAGE: local
+      DOMAINS: 'oh-my-crud.localhost -> http://app:3000'
+    volumes: 
+      - https-portal-data:/var/lib/https-portal
+    restart: always
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./app:/app
+    tty: true
+    stdin_open: true
+
+volumes:
+  https-portal-data:
