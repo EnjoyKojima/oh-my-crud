@@ -12,5 +12,13 @@ export default defineNuxtConfig({
      * @default "./components/ui"
      */
     componentDir: './components/ui'
+  },
+  vite: {
+    server: {
+      hmr: {
+        clientPort: 443,
+        protocol: "wss",
+      },
+    },
   }
 })

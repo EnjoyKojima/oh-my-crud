@@ -7,6 +7,7 @@ services:
     environment:
       STAGE: local
       DOMAINS: 'oh-my-crud.localhost -> http://app:3000'
+      WEBSOCKET: "true"
     volumes: 
       - https-portal-data:/var/lib/https-portal
     restart: always
@@ -17,6 +18,8 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./app:/app
+    environment:
+      WEBSOCKET: "true"
     tty: true
     stdin_open: true
 
