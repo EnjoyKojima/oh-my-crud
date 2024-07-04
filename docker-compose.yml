@@ -1,0 +1,30 @@
+services:
+  https-portal:
+    image: steveltn/https-portal:1
+    ports:
+      - '80:80'
+      - '443:443'
+    environment:
+      STAGE: local
+      DOMAINS: |
+        crud.localhost -> http://bun:3000
+      ERROR_LOG: /var/log/nginx/error.log
+      ACCESS_LOG: /var/log/nginx/access.log
+      WEBSOCKET: "true"
+    volumes: 
+      - ./https-portal/certs:/var/lib/https-portal
+      - ./https-portal/conf:/etc/nginx/conf.d
+      - ./https-portal/nginx-conf/n2.localhost.ssl.conf.erb:/var/lib/nginx-conf/n2.localhost.ssl.conf.erb:ro
+      - ./https-portal/log:/var/log/nginx/
+    # restart: always
+
+  bun:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./workspace/html:/var/www/html
+    ports:
+      - '3000:3000'
+    tty: true
+    stdin_open: true
