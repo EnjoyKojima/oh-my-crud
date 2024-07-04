@@ -1,7 +1,7 @@
 # fire
 
 ```bash
-docker-compose uo -d --build
+docker-compose up -d --build
 ```
 
 ## app
@@ -9,4 +9,3 @@ docker-compose uo -d --build
 ```bash
 docker exec -it oh-my-crud-app-1 /bin/bash
 ```
-

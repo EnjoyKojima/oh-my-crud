@@ -1,7 +1,14 @@
-FROM oven/bun
+FROM node:20-alpine
 
-WORKDIR /app
+WORKDIR /var/www/html
 
-RUN apt-get update && apt-get -y install --no-install-recommends
+# bashをインストール
+RUN apk update && apk add --no-cache bash
+
+# libstdc++をインストール
+RUN apk add --no-cache libstdc++
+
+# COPY ./app/bun.lockb ./var/www/html/bun.lockb
+# COPY ./app/node_modules ./var/www/html/node_modules
 
 CMD ["/bin/bash"]
