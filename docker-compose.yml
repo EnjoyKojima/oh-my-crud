@@ -1,5 +1,5 @@
 services:
-  https-portal:
+  proxy:
     image: steveltn/https-portal:1
     ports:
       - '80:80'
@@ -17,7 +17,7 @@ services:
       - ./proxy/nginx-conf/crud.localhost.ssl.conf.erb:/var/lib/nginx-conf/crud.localhost.ssl.conf.erb:ro
       - ./proxy/log:/var/log/nginx/
 
-  bun:
+  app:
     build:
       context: .
       dockerfile: Dockerfile
@@ -25,3 +25,11 @@ services:
       - ./workspace/html:/var/www/html
     tty: true
     stdin_open: true
+
+  db:
+    image: mysql:9.0
+    environment:
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ./db/data:/var/lib/mysql/
