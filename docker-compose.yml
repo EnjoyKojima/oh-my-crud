@@ -29,8 +29,12 @@ services:
   db_mysql:
     image: mysql:9.0
     environment:
-      MYSQL_ROOT_HOST: "%"
-      MYSQL_ROOT_PASSWORD: root
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+      POSTGRES_PORT: 5432
+    ports:
+      - "5432:5432"
     volumes:
       - ./db/mysql:/var/lib/mysql
 
