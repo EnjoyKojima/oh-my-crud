@@ -7,7 +7,7 @@ services:
     environment:
       STAGE: local
       DOMAINS: |
-        crud.localtest.me -> http://app:3000
+        crud.localhost -> http://app:3000
       ERROR_LOG: /var/log/nginx/error.log
       ACCESS_LOG: /var/log/nginx/access.log
       WEBSOCKET: "true"
@@ -29,23 +29,7 @@ services:
   db_mysql:
     image: mysql:9.0
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: postgres
-      POSTGRES_PORT: 5432
-    ports:
-      - "5432:5432"
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_ROOT_PASSWORD: root
     volumes:
       - ./db/mysql:/var/lib/mysql
-
-  db_postgres:
-    image: postgres:16
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: postgres
-      POSTGRES_PORT: 5432
-    ports:
-      - "5432:5432"
-    volumes:
-      - ./db/postgresql:/var/lib/postgresql
