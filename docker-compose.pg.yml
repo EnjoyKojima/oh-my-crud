@@ -7,7 +7,7 @@ services:
     environment:
       STAGE: local
       DOMAINS: |
-        crud.localtest.me -> http://app:3000
+        crud.localhost -> http://app:3000
       ERROR_LOG: /var/log/nginx/error.log
       ACCESS_LOG: /var/log/nginx/access.log
       WEBSOCKET: "true"
@@ -25,14 +25,6 @@ services:
       - ./workspace/html:/var/www/html
     tty: true
     stdin_open: true
-
-  db_mysql:
-    image: mysql:9.0
-    environment:
-      MYSQL_ROOT_HOST: "%"
-      MYSQL_ROOT_PASSWORD: root
-    volumes:
-      - ./db/mysql:/var/lib/mysql
 
   db_postgres:
     image: postgres:16
