@@ -1,5 +1,5 @@
 services:
-  https-portal:
+  proxy:
     image: steveltn/https-portal:1
     ports:
       - '80:80'
@@ -7,7 +7,7 @@ services:
     environment:
       STAGE: local
       DOMAINS: |
-        crud.localhost -> http://bun:3000
+        crud.localtest.me -> http://app:3000
       ERROR_LOG: /var/log/nginx/error.log
       ACCESS_LOG: /var/log/nginx/access.log
       WEBSOCKET: "true"
@@ -17,7 +17,7 @@ services:
       - ./proxy/nginx-conf/crud.localhost.ssl.conf.erb:/var/lib/nginx-conf/crud.localhost.ssl.conf.erb:ro
       - ./proxy/log:/var/log/nginx/
 
-  bun:
+  app:
     build:
       context: .
       dockerfile: Dockerfile
@@ -25,3 +25,15 @@ services:
       - ./workspace/html:/var/www/html
     tty: true
     stdin_open: true
+
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+      POSTGRES_PORT: 5432
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./db/postgresql:/var/lib/postgresql
