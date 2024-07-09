@@ -7,7 +7,7 @@ services:
     environment:
       STAGE: local
       DOMAINS: |
-        crud.localhost -> http://app:3000
+        crud.localtest.me -> http://app:3000
       ERROR_LOG: /var/log/nginx/error.log
       ACCESS_LOG: /var/log/nginx/access.log
       WEBSOCKET: "true"
@@ -33,5 +33,7 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: postgres
       POSTGRES_PORT: 5432
+    ports:
+      - "5432:5432"
     volumes:
       - ./db/postgresql:/var/lib/postgresql
