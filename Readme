@@ -5,11 +5,5 @@ Bun をランタイムとした CRUD アプリ構築用環境。
 ## 起動
 
 ```bash
-docker-compose uo -d --build
-```
-
-## コンテナ潜る
-
-```bash
-docker exec -it oh-my-crud-app-1 /bin/bash
+docker-compose up -d --build
 ```
