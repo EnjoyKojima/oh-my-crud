@@ -1,3 +1,4 @@
 *
 !.gitignore
-!nginx-conf/
+!nginx-conf
+!nginx-conf/**
