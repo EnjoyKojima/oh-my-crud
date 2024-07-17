@@ -8,6 +8,7 @@ RUN apt-get update && \
         git \
         curl \
         unzip \
+        openssh-client \
         openssl && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
