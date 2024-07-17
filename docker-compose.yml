@@ -14,7 +14,7 @@ services:
     volumes: 
       - ./proxy/certs:/var/lib/https-portal
       - ./proxy/conf:/etc/nginx/conf.d
-      - ./proxy/nginx-conf/crud.localhost.ssl.conf.erb:/var/lib/nginx-conf/crud.localhost.ssl.conf.erb:ro
+      - ./proxy/nginx-conf/crud.localtest.me.ssl.conf.erb:/var/lib/nginx-conf/crud.localtest.me.ssl.conf.erb:ro
       - ./proxy/log:/var/log/nginx/
 
   app:
@@ -29,12 +29,10 @@ services:
   db_mysql:
     image: mysql:9.0
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: postgres
-      POSTGRES_PORT: 5432
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_ROOT_PASSWORD: root
     ports:
-      - "5432:5432"
+      - "3306:3306"
     volumes:
       - ./db/mysql:/var/lib/mysql
 
