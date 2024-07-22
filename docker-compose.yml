@@ -8,6 +8,7 @@ services:
       STAGE: local
       DOMAINS: |
         crud.localtest.me -> http://app:3000
+        crud2.localtest.me -> http://app2:3000
       ERROR_LOG: /var/log/nginx/error.log
       ACCESS_LOG: /var/log/nginx/access.log
       WEBSOCKET: "true"
@@ -15,9 +16,19 @@ services:
       - ./proxy/certs:/var/lib/https-portal
       - ./proxy/conf:/etc/nginx/conf.d
       - ./proxy/nginx-conf/crud.localtest.me.ssl.conf.erb:/var/lib/nginx-conf/crud.localtest.me.ssl.conf.erb:ro
+      - ./proxy/nginx-conf/crud2.localtest.me.ssl.conf.erb:/var/lib/nginx-conf/crud2.localtest.me.ssl.conf.erb:ro
       - ./proxy/log:/var/log/nginx/
 
   app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./workspace/html:/var/www/html
+    tty: true
+    stdin_open: true
+
+  app2:
     build:
       context: .
       dockerfile: Dockerfile
