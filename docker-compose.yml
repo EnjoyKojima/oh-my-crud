@@ -7,11 +7,12 @@ services:
     environment:
       STAGE: local
       DOMAINS: |
+        bun.localtest.me -> http://bun:3000
         node.localtest.me -> http://node:3000
       ERROR_LOG: /var/log/nginx/error.log
       ACCESS_LOG: /var/log/nginx/access.log
       WEBSOCKET: "true"
-    volumes: 
+    volumes:
       - ./proxy/certs:/var/lib/https-portal
       - ./proxy/conf:/etc/nginx/conf.d
       - ./proxy/nginx-conf/bun.localtest.me.ssl.conf.erb:/var/lib/nginx-conf/bun.localtest.me.ssl.conf.erb:ro
@@ -20,6 +21,9 @@ services:
     depends_on:
       - bun
       - node
+    networks:
+      - bun_network
+      - node_network
 
   bun:
     build:
@@ -30,18 +34,16 @@ services:
     tty: true
     stdin_open: true
     networks:
-      - pg_network
-      - mysql_network
+      - bun_network
 
   node:
-      image: node:20
-      volumes:
-        - ./workspace/node:/var/www/html
-      tty: true
-      stdin_open: true
-      networks:
-        - pg_network
-        - mysql_network
+    image: node:20
+    volumes:
+      - ./workspace/node:/var/www/html
+    tty: true
+    stdin_open: true
+    networks:
+      - node_network
 
   db_mysql:
     image: mysql:9.0
@@ -53,7 +55,8 @@ services:
     volumes:
       - ./db/mysql:/var/lib/mysql
     networks:
-      - mysql_network
+      - bun_network
+      - node_network
 
   db_postgres:
     image: postgres:16
@@ -67,12 +70,11 @@ services:
     volumes:
       - ./db/postgresql:/var/lib/postgresql
     networks:
-      - pg_network
+      - bun_network
+      - node_network
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
 networks:
-  pg_network:
-    driver: bridge
-  mysql_network:
-    driver: bridge
+  bun_network:
+  node_network:
